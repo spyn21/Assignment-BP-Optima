@@ -1,92 +1,184 @@
-# Async Document Processing API
+# 📄 Asynchronous Document Processing API
 
-This project provides an Express backend where users submit a document (uploaded file or `fileUrl`) and receive a `jobId`. Document processing runs asynchronously in background worker loops, while job status can be tracked via APIs.
+## 🚀 Overview
 
-## Requirements
+This project is a **backend system** that allows users to submit documents for processing.
+The system processes documents **asynchronously** using background workers and provides APIs to track job status.
 
-- Node.js 18+ (Node.js 20/22 recommended)
-- npm
+---
 
-## Project Setup
+## 🎯 Features
 
-1. Open this folder in VS Code.
-2. Open the integrated terminal (Terminal -> New Terminal).
-3. Install dependencies:
+* 📥 Submit a document (via file URL)
+* 🧠 Asynchronous processing using worker-based architecture
+* 🔄 Job status tracking (`pending`, `processing`, `completed`, `failed`)
+* ⚡ Multiple background workers for parallel processing
+* 🩺 Health check endpoint
+* 🛡️ Error handling middleware
 
-```bash
+---
+
+## 🏗️ Tech Stack
+
+* **Node.js**
+* **Express.js**
+* **JavaScript (ES6)**
+* **In-memory queue (for job handling)**
+
+---
+
+## 📂 Project Structure
+
+```
+├── index.js              # Main server file
+├── docprocessing.js     # Job queue & worker logic
+├── package.json
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```
+git clone https://github.com/spyn21/Assignment-BP-Optima.git
+cd Assignment-BP-Optima
+```
+
+### 2️⃣ Install dependencies
+
+```
 npm install
 ```
 
-4. (Optional) Create `.env` from `.env.example`:
+### 3️⃣ Setup environment variables
 
-```bash
-copy .env.example .env
+Create a `.env` file:
+
+```
+PORT=8000
 ```
 
-## Run the server (VS Code)
+### 4️⃣ Run the server
 
-From the project folder:
-
-```bash
+```
 npm start
 ```
 
-Server runs on `http://localhost:8000` by default.
+---
 
-## API
+## 🌐 API Endpoints
 
-### 1) Submit a document job
+### 🔹 1. Create Document Job
 
-Endpoint:
-`POST /api/document-jobs`
+**POST** `/api/document-jobs`
 
-#### JSON body (submit by URL)
+Request Body:
 
 ```json
 {
-  "fileUrl": "https://example.com/report.pdf",
-  "callbackUrl": "https://example.com/webhook"
+  "fileUrl": "https://example.com/sample.pdf"
 }
 ```
 
-#### multipart/form-data (submit by upload)
+Response:
 
-- field `file` (required)
-- optional field `callbackUrl`
-- optional field `fileUrl`
+```json
+{
+  "jobId": "12345",
+  "status": "pending"
+}
+```
 
-Response (`202`):
-- `jobId`
-- `status` (starts as `queued`)
-- `timestamps`, `attempts`, and (currently null) `result`
+---
 
-### 2) Get job status (with timestamps + mock result)
+### 🔹 2. Get Job Status
 
-Endpoint:
-`GET /api/document-jobs/:jobId`
+**GET** `/api/document-jobs/:jobId`
 
-Job `status` values:
-- `queued`
-- `processing`
-- `completed`
-- `failed`
+Response:
 
-On success, `result` contains a mock JSON payload.
+```json
+{
+  "jobId": "12345",
+  "status": "processing"
+}
+```
 
-### 3) List jobs (bonus)
+---
 
-Endpoint:
-`GET /api/document-jobs`
+### 🔹 3. Health Check
 
-## Configuration
+**GET** `/health`
 
-Optional environment variables:
-- `PORT` (default `8000`)
-- `DOC_WORKER_CONCURRENCY` (default `3`)
-- `DOC_WORKER_POLL_MS` (default `400`)
+Response:
 
-## Notes
+```json
+{
+  "status": "OK",
+  "timestamp": "2026-03-30T10:00:00.000Z"
+}
+```
 
-- This implementation uses an in-memory store. Jobs reset when the server restarts.
-- Processing is simulated with a random delay of `10–20 seconds`, and failures are simulated to exercise retry/failed states.
+---
 
+## 🔄 How It Works
+
+1. User submits a document via API
+2. A **job is created** and stored in memory
+3. Background **workers continuously poll the queue**
+4. Workers process jobs with simulated delay
+5. Job status is updated accordingly
+
+---
+
+## 🧠 Architecture
+
+* **Producer** → API creates jobs
+* **Queue** → Stores pending jobs
+* **Workers (Consumers)** → Process jobs asynchronously
+
+---
+
+## ⚠️ Limitations
+
+* Uses **in-memory storage** (data lost on restart)
+* No persistent database
+* No real file processing (simulated)
+
+---
+
+## 🔮 Future Improvements
+
+* 🔗 Integrate **Redis + Bull Queue**
+* 🗄️ Add **database (MongoDB/PostgreSQL)**
+* 🔁 Retry mechanism for failed jobs
+* 📊 Add logging & monitoring
+* 📁 Support file uploads (not just URLs)
+
+---
+
+## 👨‍💻 Author
+
+**Naresh Bhukya**
+
+---
+
+## ⭐ Notes
+
+This project demonstrates:
+
+* Backend architecture design
+* Asynchronous processing
+* REST API development
+* Worker-based systems
+
+---
+
+## 📌 License
+
+This project is for learning and assignment purposes.
