@@ -164,7 +164,7 @@ Response:
 
 ## 👨‍💻 Author
 
-**Naresh Bhukya**
+**Bhukya Naresh  IIT ROORKEE**
 
 ---
 
@@ -178,7 +178,3 @@ This project demonstrates:
 * Worker-based systems
 
 ---
-
-## 📌 License
-
-This project is for learning and assignment purposes.
