@@ -1,0 +1,20 @@
+{
+  "name": "document-processing-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Asynchronous document processing API (queued + worker-based simulation).",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "body-parser": "^1.20.3",
+    "multer": "^1.4.5-lts.2"
+  }
+}
+
